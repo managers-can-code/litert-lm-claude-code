@@ -1,0 +1,46 @@
+# Additions to python/litert_lm_cli/BUILD.
+# Append these to the existing BUILD file, alongside the existing serve_*
+# rules. Reviewer should match the indentation/formatting style of the
+# existing rules (likely Buildifier-formatted).
+
+py_library(
+    name = "serve_anthropic",
+    srcs = ["serve_anthropic.py"],
+    deps = [
+        "//python/litert_lm",
+    ],
+)
+
+py_test(
+    name = "serve_anthropic_test",
+    srcs = ["serve_anthropic_test.py"],
+    deps = [
+        ":serve_anthropic",
+        "@absl_py//absl/testing:absltest",
+        "@absl_py//absl/testing:parameterized",
+    ],
+    data = [
+        "//outputs/fixtures:anthropic_sse_fixtures",  # adjust path to wherever fixtures land in tree
+    ],
+)
+
+py_test(
+    name = "serve_anthropic_integration_test",
+    srcs = ["serve_anthropic_integration_test.py"],
+    deps = [
+        ":serve_anthropic",
+        "@absl_py//absl/testing:absltest",
+        "@httpx_py//:pkg",
+    ],
+    tags = ["requires-network"],  # uses local HTTP loopback
+)
+
+# Update existing :serve py_library to depend on :serve_anthropic:
+#   py_library(
+#       name = "serve",
+#       deps = [
+#           ":serve_anthropic",   # ADD THIS
+#           ":serve_gemini",
+#           ":serve_openai",
+#       ],
+#   )

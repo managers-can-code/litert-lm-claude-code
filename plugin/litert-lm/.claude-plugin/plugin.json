@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "litert-lm",
+  "version": "0.1.0",
+  "description": "Zero-config bridge between Claude Code and a local LiteRT-LM model running 'litert-lm serve --api anthropic'. Ships skills, slash commands, a debug subagent, and an MCP server for managing the local model lifecycle.",
+  "author": {
+    "name": "ram",
+    "email": "tenheadedram@gmail.com"
+  },
+  "homepage": "https://github.com/google-ai-edge/LiteRT-LM",
+  "repository": "https://github.com/google-ai-edge/LiteRT-LM",
+  "license": "Apache-2.0",
+  "keywords": [
+    "litert-lm",
+    "litertlm",
+    "local-llm",
+    "anthropic-api",
+    "edge",
+    "gemma",
+    "offline"
+  ],
+  "mcpServers": {
+    "litert-lm": {
+      "command": "python3",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/litert_lm_mcp.py"],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}
