@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.coverage
+.pytest_cache/
+push.log
+run-tier3-auto.log

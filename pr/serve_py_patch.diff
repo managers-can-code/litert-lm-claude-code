@@ -1,0 +1,33 @@
+# Proposed minimal edit to python/litert_lm_cli/serve.py.
+# This registers the new AnthropicHandler alongside the existing GeminiHandler
+# and OpenAIHandler. The actual integration code is in serve_anthropic.py.
+#
+# Apply with `git apply` from the LiteRT-LM repo root.
+
+--- a/python/litert_lm_cli/serve.py
++++ b/python/litert_lm_cli/serve.py
+@@ -- a/python/litert_lm_cli/serve.py
++++ b/python/litert_lm_cli/serve.py
+@@ -<line>,<line> +<line>,<line> @@
+-from litert_lm_cli import serve_openai as _serve_openai
++from litert_lm_cli import serve_anthropic as _serve_anthropic
++from litert_lm_cli import serve_openai as _serve_openai
+
+@@ -<line>,<line> +<line>,<line> @@ click choice for --api
+-    type=click.Choice(["gemini", "openai"]),
++    type=click.Choice(["gemini", "openai", "anthropic"]),
+     default="gemini",
+
+@@ -<line>,<line> +<line>,<line> @@ inside the serve() command body, after the existing handler dispatches
+     elif api == "openai":
+         handler_cls = _serve_openai.OpenAIHandler
++    elif api == "anthropic":
++        handler_cls = _serve_anthropic.AnthropicHandler
+     else:
+         raise click.UsageError(f"unknown --api {api}")
+
+# NOTE: line numbers are intentionally left as <line> because the maintainers'
+# serve.py may have evolved between when discovery.md was written and when
+# this PR is opened. The reviewer should re-anchor the patch against current
+# main. The intent is unambiguous: extend the --api choice with "anthropic"
+# and add a one-branch dispatch.
